@@ -31,7 +31,7 @@ $logo = @'
 ========================================================================================================================
 '@
 
-#Art form http://patorjk.com/software/taag/#p=display&f=Larry%203D&t=Datacom%20-%20PRTG%0ASNMP%20Disk%20Report
+#Art form http://patorjk.com/software/taag/#p=display&f=Larry%203D&t=%20%20%20%20%20%20%20%20%20%20PRTG%20-%20%0ASNMP%20Disk%20Report
 write-host $logo -ForegroundColor Green -BackgroundColor Black
 
 #-------------Script variables------------
