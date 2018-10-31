@@ -44,9 +44,9 @@ $Passhash = "123456789"
 $invocation = (Get-Item -Path ".\").FullName
 $filedate= get-date -f ddMMyyyy-HHmm
 $csv = "prtgsnmpdiskreport-$filedate.csv"
+$log = "error.log"
 
-
-try {
+try {    
 	Write-host "Info - Gathering full sensor list from $PRTGServer" -ForegroundColor Green -BackgroundColor Black
 	$url = "https://$PRTGServer/api/table.xml?content=sensors&output=csvtable&columns=objid,probe,group,device,sensor,status,message,lastvalue,type,lastcheck&count=100000&login=$PRTGUser&passhash=$Passhash"
 	$data = Invoke-WebRequest -Uri $url -ErrorAction Stop
@@ -109,6 +109,16 @@ try {
 	Write-host "Info - Script Completed" -ForegroundColor Green -BackgroundColor Black
 }
 catch {
-    Write-host "Error - Script Failed due to some processing or networking error" -ForegroundColor Green -BackgroundColor Black
+    Write-host "Error - Script Failed due to some processing or networking error. For details please see $log" -ForegroundColor Green -BackgroundColor Black
+    $error_message = @"
+##################
+$(Get-Date)
+##################
+$($error[0].InvocationInfo.MyCommand.Name): $($error[0].ToString())
+$($error[0].InvocationInfo.PositionMessage)
++ CategoryInfo: $($error[0].CategoryInfo)
++ FullyQualifiedErrorId: $($error[0].FullyQualifiedErrorId)
+"@
+    $error_message|Out-File $log -Append
 }
 
